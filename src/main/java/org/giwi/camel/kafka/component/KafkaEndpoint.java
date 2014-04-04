@@ -30,6 +30,7 @@ public class KafkaEndpoint extends DefaultPollingEndpoint {
 	private String groupId;
 	private String topicName;
 	private String zkConnect;
+  private String metadataBrokerList;
 	private int concurrentConsumers = 1;
 	private String socketTimeoutMs = "30000";
 	private String socketBuffersize = "65536";
@@ -44,7 +45,7 @@ public class KafkaEndpoint extends DefaultPollingEndpoint {
 	private String mirrorTopicsWhitelist = "";
 	private String mirrorTopicsBlacklist = "";
 	private String mirrorConsumerNumthreads = "4";
-	private String serializerClass = "";
+	private String serializerClass = "kafka.serializer.DefaultEncoder";
 	private String partitionerClass = "";
 	private String producerType = "sync";
 	private String brokerList = "";
@@ -619,4 +620,18 @@ public class KafkaEndpoint extends DefaultPollingEndpoint {
 		this.autocommitEnable = autocommitEnable;
 	}
 
+  /**
+   * @return metadataBrokerList
+   */
+  public String getMetadataBrokerList() {
+    return metadataBrokerList;
+  }
+
+  /**
+   * Set metadataBrokerList
+   * @param metadataBrokerList value to set on object
+   */
+  public void setMetadataBrokerList(final String metadataBrokerList) {
+    this.metadataBrokerList = metadataBrokerList;
+  }
 }

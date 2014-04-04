@@ -53,10 +53,10 @@ public class SingleStringMessageTest extends CamelTestSupport {
 		return new RouteBuilder() {
 			@Override
 			public void configure() throws Exception {
-				from("direct:start").to("kafka:TOPIC-TEST-SINGLE-STRING?zkConnect=localhost:2181");
+				from("direct:start").to("kafka:TOPIC-TEST-SINGLE-STRING?zkConnect=mauth00.dev.returnpath.net:2181&metadataBrokerList=mauth00.dev.returnpath.net:9092");
 
 				// Recieving
-				from("kafka:TOPIC-TEST-SINGLE-STRING?groupId=camelTest&zkConnect=localhost:2181").to("mock:result");
+				from("kafka:TOPIC-TEST-SINGLE-STRING?groupId=camelTest&zkConnect=mauth00.dev.returnpath.net:2181").to("mock:result");
 			}
 		};
 	}

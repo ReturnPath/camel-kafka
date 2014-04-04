@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Properties;
 
 import kafka.javaapi.producer.Producer;
-import kafka.javaapi.producer.ProducerData;
 import kafka.message.Message;
+import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 
 import org.apache.camel.Exchange;
@@ -45,7 +45,8 @@ public class KafkaProducer extends DefaultProducer {
 		super(endpoint);
 		this.endpoint = endpoint;
 		final Properties props = new Properties();
-		props.put("zk.connect", endpoint.getZkConnect());
+		props.put("zookeeper.connect", endpoint.getZkConnect());
+    props.put("metadata.broker.list", endpoint.getMetadataBrokerList());
 		if (!"".equals(endpoint.getSerializerClass())) {
 			props.put("serializer.class", endpoint.getSerializerClass());
 		}
@@ -61,7 +62,7 @@ public class KafkaProducer extends DefaultProducer {
 		props.put("max.message.size", endpoint.getMaxMessageSize());
 		props.put("compression.codec", endpoint.getCompressionCodec());
 		props.put("compressed.topics", endpoint.getCompressedTopics());
-		props.put("zk.read.num.retries", endpoint.getZkReadNumRetries());
+		props.put("zookeeper.read.num.retries", endpoint.getZkReadNumRetries());
 		// producer.type=async
 		if ("async".equals(endpoint.getProducerType())) {
 			props.put("queue.time", endpoint.getQueueTime());
@@ -105,7 +106,7 @@ public class KafkaProducer extends DefaultProducer {
 		super.doStop();
 		producer.close();
 		if (LOG.isInfoEnabled()) {
-			LOG.info("Kafka Producer Component stoped");
+			LOG.info("Kafka Producer Component stopped");
 		}
 	}
 
@@ -130,11 +131,11 @@ public class KafkaProducer extends DefaultProducer {
 			TypeConverter converter = exchange.getContext().getTypeConverter();
 
 			if (body instanceof List) {
-				final List<ProducerData<String, Message>> data = new ArrayList<ProducerData<String, Message>>();
+				final List<KeyedMessage<String, Message>> data = new ArrayList<KeyedMessage<String, Message>>();
 				for(Object obj: (List)body) {
 					final byte[] bytes = converter.convertTo(byte[].class, exchange, obj);
 					if (bytes != null) {
-						data.add(new ProducerData<String, Message>(topicName, new Message(bytes)));
+						data.add(new KeyedMessage<String, Message>(topicName, null, new Message(bytes)));
 					} else {
 						throw new UnsupportedEncodingException("Unable to convert " + obj + " to byte[]");
 					}
@@ -143,7 +144,8 @@ public class KafkaProducer extends DefaultProducer {
 			} else {
 				final byte[] bytes = converter.convertTo(byte[].class, exchange, body);
 				if (bytes != null) {
-					producer.send(new ProducerData<String, Message>(topicName, new Message(bytes)));
+          //producer.send(new KeyedMessage<String, Message>(topicName, null, new Message(bytes)));
+          producer.send(new KeyedMessage<String, Message>(topicName, new Message(bytes)));
 				} else {
 					throw new UnsupportedEncodingException("Unable to convert " + body + " to byte[]");
 				}

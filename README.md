@@ -1,11 +1,16 @@
+# THIS CODE IS NOT REALLY MAINTAINED.
+
+WE've updated to kAFKA 8 simply because it works and it was fast. YMMV (I can specifically tell you that if you want to publish to kafka your milage will be very low).
+
+
 ## camel-kafka
 It aims to be a [Camel](http://camel.apache.org/) component for accessing the [Kafka](http://incubator.apache.org/kafka/) messaging system.
 
 Ok, I'm glad, but how to use it? Let's read the guts-shaking documentation on the [Wiki](https://github.com/BreizhBeans/camel-kafka/wiki)
 
-### Download here : 
+### Download here :
 [Release cadidate 1](https://github.com/BreizhBeans/camel-kafka/blob/1e84168647f19769e1b2938ecfccc9be65c4f4f8/target/camel-kafka-0.0.3-RC1.jar?raw=true)
-    
+
 ## Conclusion
 Oh Lord, it's tremendously impressive.
 ___

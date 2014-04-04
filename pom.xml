@@ -2,9 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>camel-kafka</groupId>
 	<artifactId>camel-kafka</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>camel-kafka</name>
-	<url>http://breizhbeans.github.com/camel-kafka/</url>
+	<url>http://returnpath.github.com/camel-kafka/</url>
 	<description>It aims to be a Camel component for accessing the Kafka messaging system.</description>
 	<licenses>
 		<license>
@@ -15,11 +15,13 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<camel.version>2.13.0</camel.version>
+		<scala.minor>2.10</scala.minor>
 	</properties>
 	<scm>
-		<connection>scm:git:https://github.com/BreizhBeans/camel-kafka.git</connection>
-		<developerConnection>scm:git:https://github.com/BreizhBeans/camel-kafka.git</developerConnection>
-		<url>scm:git:https://github.com/BreizhBeans/camel-kafka.git</url>
+		<connection>scm:git:https://github.com/returnpath/camel-kafka.git</connection>
+		<developerConnection>scm:git:https://github.com/returnpath/camel-kafka.git</developerConnection>
+		<url>scm:git:https://github.com/returnpath/camel-kafka.git</url>
 	</scm>
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -36,10 +38,17 @@
 		</plugins>
 	</build>
 	<distributionManagement>
-		<site>
-			<id>apache-kafka-site</id>
-			<url>file:/home/xavier/giwi/camel-kafka</url>
-		</site>
+		<repository>
+			<id>central</id>
+			<name>libs-release-local</name>
+			<url>http://artifactory.dev.returnpath.net/artifactory/libs-release-local</url>
+		</repository>
+		<!-- use the following if you are using a SNAPSHOT version. -->
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>artifactory.dev.returnpath.net-snapshots</name>
+			<url>http://artifactory.dev.returnpath.net/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
 	</distributionManagement>
 	<reporting>
 		<plugins>
@@ -77,12 +86,12 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
-			<version>2.10.2</version>
+			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
-			<version>2.8.0</version>
+			<version>${scala.minor}.4</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jopt-simple</groupId>
@@ -143,8 +152,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.scalatest</groupId>
-			<artifactId>scalatest</artifactId>
-			<version>1.2</version>
+			<artifactId>scalatest_${scala.minor}</artifactId>
+			<version>2.1.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -172,15 +181,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>kafka</groupId>
-			<artifactId>kafka</artifactId>
-			<version>0.7.2</version>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka_${scala.minor}</artifactId>
+			<version>0.8.1</version>
 		</dependency>
 		<!-- testing -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test</artifactId>
-			<version>2.10.2</version>
+			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

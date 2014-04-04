@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Klistener implements Runnable {
 
-	private KafkaStream<Message> stream;
+	private KafkaStream<byte[], byte[]> stream;
 	private KafkaEndpoint endpoint;
 	private KafkaConsumer consumer;
 	private static final Logger LOG = LoggerFactory.getLogger(Klistener.class);
@@ -35,11 +35,9 @@ public class Klistener implements Runnable {
 	 */
 	@Override
 	public void run() {
-		for (final MessageAndMetadata<Message> message : stream) {
+		for (final MessageAndMetadata<byte[], byte[]> message : stream) {
 			final Exchange exchange = endpoint.createExchange();
-			final byte[] bytes = new byte[message.message().payload().remaining()];
-			message.message().payload().get(bytes);
-			exchange.getIn().setBody(bytes);
+			exchange.getIn().setBody(message.message());
 			try {
 				consumer.getProcessor().process(exchange);
 			} catch (Exception e) {
@@ -57,7 +55,7 @@ public class Klistener implements Runnable {
 	/**
 	 * @return the stream
 	 */
-	public final KafkaStream<Message> getStream() {
+	public final KafkaStream<byte[], byte[]> getStream() {
 		return stream;
 	}
 
@@ -65,7 +63,7 @@ public class Klistener implements Runnable {
 	 * @param stream
 	 *    the stream to set
 	 */
-	public final void setStream(final KafkaStream<Message> stream) {
+	public final void setStream(final KafkaStream<byte[], byte[]> stream) {
 		this.stream = stream;
 	}
 
